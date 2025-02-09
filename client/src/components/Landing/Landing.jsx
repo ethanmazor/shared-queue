@@ -4,7 +4,6 @@ import './Landing.css';
 
 function Landing() {
   const navigate = useNavigate();
-
   const handleLogin = () => {
     const client_id = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
     const redirect_uri = `${window.location.origin}/callback`;
