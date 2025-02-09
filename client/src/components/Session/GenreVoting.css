@@ -1,122 +1,181 @@
 .genre-voting {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
-  text-align: center;
+  padding: 2rem;
+  background: var(--rock-gray);
+  border: 2px solid var(--rock-gold);
+  border-radius: 8px;
 }
 
-.genres-grid {
+.genre-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.genre-header h2 {
+  font-size: 2.5rem;
+  color: var(--rock-gold);
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.timer {
+  font-size: 1.2rem;
+  color: var(--rock-light);
+}
+
+.timer span {
+  color: var(--rock-red);
+  font-weight: bold;
+}
+
+.genre-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 15px;
-  margin: 20px 0;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 .genre-button {
   position: relative;
-  padding: 15px;
-  border: 2px solid #1DB954;
+  padding: 1rem;
+  background: var(--rock-black);
+  border: 2px solid var(--rock-gold);
   border-radius: 8px;
-  background: transparent;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
+  color: var(--rock-light);
+  font-weight: bold;
   transition: all 0.3s ease;
 }
 
-.genre-button:hover:not(.disabled) {
-  background: rgba(29, 185, 84, 0.1);
+.genre-button:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px rgba(255, 46, 46, 0.3);
 }
 
 .genre-button.selected {
-  background: #1DB954;
+  background: var(--rock-red);
+  border-color: var(--rock-gold);
   color: white;
+  animation: pulse 2s infinite;
 }
 
-.genre-button.disabled {
+.genre-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
 .selection-number {
   position: absolute;
-  top: -8px;
-  right: -8px;
-  background: #191414;
-  color: #1DB954;
-  width: 24px;
-  height: 24px;
+  top: -10px;
+  right: -10px;
+  width: 25px;
+  height: 25px;
+  background: var(--rock-gold);
+  border: 2px solid var(--rock-red);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #1DB954;
+  color: var(--rock-black);
+  font-weight: bold;
+  font-size: 0.9rem;
 }
 
-.submit-vote-btn {
-  background: #1DB954;
-  color: white;
+.submit-votes {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  background: var(--rock-red);
   border: none;
-  padding: 12px 30px;
-  border-radius: 25px;
+  border-radius: 8px;
+  color: white;
   font-size: 1.1rem;
-  cursor: pointer;
+  font-weight: bold;
   transition: all 0.3s ease;
-  margin-top: 20px;
 }
 
-.submit-vote-btn:hover:not(:disabled) {
-  background: #1ed760;
+.submit-votes:hover:not(:disabled) {
   transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 46, 46, 0.4);
 }
 
-.submit-vote-btn:disabled {
-  opacity: 0.5;
+.submit-votes:disabled {
+  background: var(--rock-purple);
+  opacity: 0.7;
   cursor: not-allowed;
 }
 
-.waiting-message {
-  margin-top: 20px;
-  color: #b3b3b3;
+.voting-results {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--rock-gold);
 }
 
-.genre-voting-results {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.results-container {
-  margin-top: 20px;
+.voting-results h3 {
+  font-size: 1.8rem;
+  color: var(--rock-gold);
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .result-bar {
   display: flex;
   align-items: center;
-  margin: 10px 0;
-  gap: 10px;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .genre-name {
-  width: 100px;
+  width: 120px;
   text-align: right;
+  color: var(--rock-light);
+  font-weight: bold;
 }
 
-.vote-bar {
+.progress-container {
   flex: 1;
   height: 20px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--rock-black);
   border-radius: 10px;
   overflow: hidden;
 }
 
-.vote-fill {
+.progress-fill {
   height: 100%;
-  background: #1DB954;
-  transition: width 0.5s ease;
+  background: var(--rock-red);
+  transition: width 0.5s ease-out;
 }
 
 .vote-count {
-  width: 30px;
-  text-align: left;
+  width: 40px;
+  color: var(--rock-gold);
+  font-weight: bold;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 46, 46, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 46, 46, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 46, 46, 0);
+  }
+}
+
+@media (max-width: 768px) {
+  .genre-voting {
+    padding: 1rem;
+  }
+
+  .genre-header h2 {
+    font-size: 2rem;
+  }
+
+  .genre-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
 } 

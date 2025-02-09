@@ -30,6 +30,13 @@
 }
 
 :root {
+  --rock-black: #0A0A0A;
+  --rock-red: #FF2E2E;
+  --rock-gold: #FFD700;
+  --rock-purple: #6B46C1;
+  --rock-gray: #2D2D2D;
+  --rock-light: #CCCCCC;
+
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -64,8 +71,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background: var(--spotify-black);
-  color: white;
+  background: var(--rock-black);
+  color: var(--rock-light);
 }
 
 h1 {
@@ -109,7 +116,7 @@ button:focus-visible {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 input {
@@ -122,16 +129,16 @@ input {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--spotify-black);
+  background: var(--rock-black);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--spotify-dark-gray);
+  background: var(--rock-gray);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--spotify-light-gray);
+  background: var(--rock-light);
 }
 
 /* Common utility classes */

@@ -1,201 +1,120 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSpotifyAuth } from '../../hooks/useSpotifyAuth';
 import './Home.css';
 
 function Home() {
   const [user, setUser] = useState(null);
-  const [sessionCode, setSessionCode] = useState('');
-  const [error, setError] = useState(null);
-  const [isCreating, setIsCreating] = useState(false);
-  const [isJoining, setIsJoining] = useState(false);
-  
   const navigate = useNavigate();
-  const { user: spotifyUser } = useSpotifyAuth();
 
   useEffect(() => {
-    // Add console logs to track component lifecycle
-    console.log('Home component mounted');
-    try {
-      const userString = localStorage.getItem('spotify_user');
-      if (userString) {
-        const userData = JSON.parse(userString);
-        setUser(userData);
-        console.log('User data loaded:', userData);
-      }
-    } catch (err) {
-      console.error('Error loading user data:', err);
-      setError('Failed to load user data');
+    const userString = localStorage.getItem('spotify_user');
+    if (userString) {
+      setUser(JSON.parse(userString));
     }
   }, []);
 
-  const generateSessionId = () => {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    return Array.from({ length: 4 }, () => 
-      chars.charAt(Math.floor(Math.random() * chars.length))
-    ).join('');
+  const handleSpotifyLogin = () => {
+    const client_id = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+    const redirect_uri = `${window.location.origin}/callback`;
+    const scope = 'streaming user-read-email user-read-private user-read-playback-state user-modify-playback-state';
+    
+    window.location.href = `https://accounts.spotify.com/authorize?client_id=${client_id}&response_type=code&redirect_uri=${redirect_uri}&scope=${encodeURIComponent(scope)}`;
   };
 
-  const createSession = async () => {
-    const sessionId = generateSessionId();
-    try {
-      setIsCreating(true);
-      setError(null);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/sessions/create`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('spotify_token')}`,
-        },
-        body: JSON.stringify({
-          sessionId,
-          hostId: spotifyUser.id,
-          hostName: spotifyUser.display_name,
-        }),
-      });
-
-      if (response.ok) {
-        navigate(`/session/${sessionId}`);
-      } else {
-        setError('Failed to create session');
-      }
-    } catch (err) {
-      console.error('Error creating session:', err);
-      setError('Failed to create session');
-    } finally {
-      setIsCreating(false);
-    }
+  const handleLogout = () => {
+    localStorage.removeItem('spotify_user');
+    localStorage.removeItem('spotify_token');
+    setUser(null);
+    navigate('/');
+    window.location.reload();
   };
 
-  const joinSession = async (e) => {
-    e.preventDefault();
-    if (sessionCode.length !== 4) {
-      setError('Session code must be 4 characters');
-      return;
-    }
-
-    try {
-      setIsJoining(true);
-      setError(null);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/sessions/${sessionCode}/join`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('spotify_token')}`,
-        },
-        body: JSON.stringify({
-          userId: spotifyUser.id,
-          userName: spotifyUser.display_name,
-        }),
-      });
-
-      if (response.ok) {
-        navigate(`/session/${sessionCode}`);
-      } else {
-        setError('Session not found or cannot be joined');
-      }
-    } catch (err) {
-      console.error('Error joining session:', err);
-      setError('Failed to join session');
-    } finally {
-      setIsJoining(false);
-    }
-  };
-
-  // Add console log to verify render
-  console.log('Home component rendering');
+  if (!user) {
+    return (
+      <div className="landing-container">
+        <div className="landing-content">
+          <h1 className="landing-title">
+            <span className="rock-emoji">🤘</span> Music Jam
+          </h1>
+          <p className="landing-subtitle">
+            Create or join music sessions with friends
+          </p>
+          <div className="features-grid">
+            <div className="feature-item">
+              <span className="feature-icon">🎵</span>
+              <h3>Real-time Music</h3>
+              <p>Listen together in perfect sync</p>
+            </div>
+            <div className="feature-item">
+              <span className="feature-icon">🗳️</span>
+              <h3>Vote on Songs</h3>
+              <p>Democracy rules the playlist</p>
+            </div>
+            <div className="feature-item">
+              <span className="feature-icon">🎸</span>
+              <h3>Genre Mixing</h3>
+              <p>Blend different music styles</p>
+            </div>
+            <div className="feature-item">
+              <span className="feature-icon">🤖</span>
+              <h3>Smart Queue</h3>
+              <p>AI-powered recommendations</p>
+            </div>
+          </div>
+          <button 
+            onClick={handleSpotifyLogin}
+            className="spotify-login-btn"
+          >
+            <span className="spotify-icon">🎧</span>
+            Continue with Spotify
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white p-4">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <header className="mb-12">
-          <h1 className="text-4xl font-bold text-[#FFD700]">
-            🤘 Music Jam
-          </h1>
-        </header>
+    <div className="home-container">
+      <div className="home-header">
+        <h1 className="home-title">🤘 Music Jam</h1>
+        <div className="user-info">
+          <img 
+            src={user.images?.[0]?.url || '/default-avatar.png'} 
+            alt={user.display_name}
+          />
+          <span>{user.display_name}</span>
+          <button 
+            onClick={handleLogout}
+            className="logout-btn"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
 
-        {/* Test content to verify rendering */}
-        <div className="text-white">
-          If you can see this, the component is rendering!
+      <main className="session-options">
+        <div className="session-card">
+          <h2>Create Session</h2>
+          <p>Start a new music session and invite friends!</p>
+          <button className="create-btn">
+            Create New Session
+          </button>
         </div>
 
-        {/* Main Content */}
-        <main className="grid md:grid-cols-2 gap-8 animate-slide-up">
-          {/* Create Session Card */}
-          <div className="rock-card transform hover:scale-105 transition-all duration-300">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-rock-gold mb-4">
-                Create Session
-              </h2>
-              <p className="text-rock-light">
-                Start a new jam session and invite your friends to join!
-              </p>
-            </div>
-            <button
-              onClick={createSession}
-              disabled={isCreating}
-              className="rock-button w-full bg-rock-red hover:bg-rock-red/80 
-                         disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isCreating ? (
-                <span className="flex items-center justify-center gap-2">
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Creating...
-                </span>
-              ) : (
-                '🎸 Create New Session'
-              )}
-            </button>
-          </div>
-
-          {/* Join Session Card */}
-          <div className="rock-card transform hover:scale-105 transition-all duration-300">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-rock-gold mb-4">
-                Join Session
-              </h2>
-              <p className="text-rock-light">
-                Enter a session code to join an existing jam!
-              </p>
-            </div>
-            <form onSubmit={joinSession} className="space-y-4">
-              <input
-                type="text"
-                value={sessionCode}
-                onChange={(e) => setSessionCode(e.target.value.toUpperCase())}
-                placeholder="Enter Session Code"
-                maxLength={4}
-                className="rock-input w-full text-center text-2xl tracking-[0.5em] 
-                           placeholder:text-rock-light/30"
-              />
-              <button
-                type="submit"
-                disabled={!sessionCode || isJoining}
-                className="rock-button w-full bg-rock-purple hover:bg-rock-purple/80 
-                           disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isJoining ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Joining...
-                  </span>
-                ) : (
-                  '⚡ Join Session'
-                )}
-              </button>
-            </form>
-          </div>
-        </main>
-
-        {/* Error Message */}
-        {error && (
-          <div className="fixed bottom-4 right-4 bg-rock-red text-white px-6 py-3 
-                         rounded-lg shadow-lg animate-slide-up">
-            {error}
-          </div>
-        )}
-      </div>
+        <div className="session-card">
+          <h2>Join Session</h2>
+          <p>Enter a code to join an existing session!</p>
+          <input
+            type="text"
+            placeholder="Enter Session Code"
+            className="session-input"
+            maxLength={4}
+          />
+          <button className="join-btn">
+            Join Session
+          </button>
+        </div>
+      </main>
     </div>
   );
 }
