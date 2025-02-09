@@ -1,0 +1,97 @@
+.song-search {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.search-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--rock-gray);
+  border-radius: 8px;
+  background: var(--rock-black);
+  color: var(--rock-light);
+  font-size: 1rem;
+}
+
+.search-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.search-spinner {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--rock-gold);
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+}
+
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--rock-gray);
+  border-radius: 8px;
+  margin-top: 4px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.search-result-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.result-album-art {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  margin-right: 12px;
+}
+
+.result-info {
+  flex: 1;
+}
+
+.result-name {
+  color: var(--rock-light);
+  font-weight: 500;
+}
+
+.result-artist {
+  color: var(--rock-light);
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+.search-error {
+  color: var(--rock-red);
+  margin-top: 8px;
+  text-align: center;
+}
+
+@keyframes spin {
+  to { transform: translateY(-50%) rotate(360deg); }
+} 

@@ -1,0 +1,100 @@
+.home-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--rock-black);
+}
+
+.title {
+  font-size: 3rem;
+  color: var(--rock-light);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.buttons-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.create-button,
+.join-button {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.create-button {
+  background: var(--rock-gold);
+  color: var(--rock-black);
+}
+
+.join-button {
+  background: var(--rock-gray);
+  color: var(--rock-light);
+  border: 2px solid var(--rock-light);
+}
+
+.create-button:hover,
+.join-button:hover {
+  transform: scale(1.05);
+}
+
+.join-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.session-input {
+  padding: 1rem;
+  font-size: 1.5rem;
+  width: 200px;
+  text-align: center;
+  border: 2px solid var(--rock-gray);
+  border-radius: 8px;
+  background: var(--rock-gray);
+  color: var(--rock-light);
+  text-transform: uppercase;
+}
+
+.submit-button {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background: var(--rock-gold);
+  color: var(--rock-black);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.submit-button:hover {
+  transform: scale(1.05);
+}
+
+.error-message {
+  color: var(--rock-red);
+  margin-top: 1rem;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .buttons-container {
+    flex-direction: column;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+} 

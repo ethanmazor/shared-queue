@@ -1,0 +1,102 @@
+.now-playing {
+  background: var(--rock-gray);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.song-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.album-art {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  margin-right: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.song-details {
+  flex: 1;
+}
+
+.song-name {
+  color: var(--rock-light);
+  margin: 0 0 8px 0;
+  font-size: 1.5rem;
+}
+
+.artist-name {
+  color: var(--rock-light);
+  opacity: 0.8;
+  margin: 0 0 8px 0;
+  font-size: 1.1rem;
+}
+
+.time-remaining {
+  color: var(--rock-gold);
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 4px 12px;
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 16px;
+  display: inline-block;
+}
+
+.progress-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--rock-gold);
+  transition: width 1s linear;
+}
+
+.time-display {
+  color: var(--rock-light);
+  opacity: 0.8;
+  font-size: 0.9rem;
+  font-family: monospace;
+  min-width: 45px;
+}
+
+.no-song-playing {
+  text-align: center;
+  padding: 40px;
+  color: var(--rock-light);
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .album-art {
+    width: 80px;
+    height: 80px;
+  }
+
+  .song-name {
+    font-size: 1.2rem;
+  }
+
+  .artist-name {
+    font-size: 1rem;
+  }
+
+  .time-remaining {
+    font-size: 0.9rem;
+  }
+} 

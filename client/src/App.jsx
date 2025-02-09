@@ -1,28 +1,19 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import ErrorBoundary from './components/ErrorBoundary';
-import Home from './components/Home/Home';
-import Session from './components/Session/Session';
-import SpotifyCallback from './components/Landing/SpotifyCallback';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Session from './pages/Session';
+import Callback from './pages/Callback';
+import './App.css';
 
 function App() {
   return (
     <Router>
-      <ErrorBoundary>
-        <Routes>
-          {/* Redirect /home to / */}
-          <Route path="/home" element={<Navigate to="/" replace />} />
-          
-          {/* Main routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/callback" element={<SpotifyCallback />} />
-          <Route path="/session/:sessionId" element={<Session />} />
-          
-          {/* Catch all route - redirect to home */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </ErrorBoundary>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/session/:sessionId" element={<Session />} />
+        <Route path="/callback" element={<Callback />} />
+      </Routes>
     </Router>
   );
 }
 
-export default App;
+export default App; 
