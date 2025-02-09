@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import io from 'socket.io-client';
-import './Session.css';
-import SongSearch from '../components/SongSearch/SongSearch';
-import VotingSection from '../components/VotingSection/VotingSection';
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import io from "socket.io-client";
+import "./Session.css";
+import SongSearch from "../components/SongSearch/SongSearch";
+import VotingSection from "../components/VotingSection/VotingSection";
 
 function Session() {
   const { sessionId } = useParams();
@@ -11,11 +11,11 @@ function Session() {
   const [socket, setSocket] = useState(null);
   const [isHost, setIsHost] = useState(false);
   const [currentSong, setCurrentSong] = useState(null);
-  const [phase, setPhase] = useState('suggestion'); // 'suggestion' or 'voting'
-  const [suggestion, setSuggestion] = useState('');
+  const [phase, setPhase] = useState("suggestion"); // 'suggestion' or 'voting'
+  const [suggestion, setSuggestion] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [votes, setVotes] = useState(new Map());
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [timeRemaining, setTimeRemaining] = useState(0);
   const [winner, setWinner] = useState(null);
   const [hasSuggested, setHasSuggested] = useState(false);
@@ -24,38 +24,38 @@ function Session() {
   useEffect(() => {
     // Connect to Socket.IO server
     const newSocket = io(import.meta.env.VITE_API_URL, {
-      query: { sessionId }
+      query: { sessionId },
     });
 
     // Socket event handlers
-    newSocket.on('connect', () => {
-      console.log('Connected to session');
+    newSocket.on("connect", () => {
+      console.log("Connected to session");
     });
 
-    newSocket.on('host_status', (status) => {
+    newSocket.on("host_status", (status) => {
       setIsHost(status);
     });
 
-    newSocket.on('current_song', (song) => {
+    newSocket.on("current_song", (song) => {
       setCurrentSong(song);
       // Update phase based on song progress
       const halfwayPoint = song.duration_ms / 2;
-      setPhase(song.progress_ms < halfwayPoint ? 'suggestion' : 'voting');
+      setPhase(song.progress_ms < halfwayPoint ? "suggestion" : "voting");
     });
 
-    newSocket.on('suggestions_update', (newSuggestions) => {
+    newSocket.on("suggestions_update", (newSuggestions) => {
       setSuggestions(newSuggestions);
     });
 
-    newSocket.on('votes_update', (newVotes) => {
+    newSocket.on("votes_update", (newVotes) => {
       setVotes(new Map(newVotes));
     });
 
-    newSocket.on('session_ended', () => {
-      navigate('/');
+    newSocket.on("session_ended", () => {
+      navigate("/");
     });
 
-    newSocket.on('phase_update', ({ phase, timeRemaining, winner }) => {
+    newSocket.on("phase_update", ({ phase, timeRemaining, winner }) => {
       setPhase(phase);
       setTimeRemaining(timeRemaining);
       setWinner(winner);
@@ -69,41 +69,45 @@ function Session() {
   const handleSuggestSong = async (track) => {
     try {
       if (hasSuggested) {
-        setError('You can only suggest one song per round');
+        setError("You can only suggest one song per round");
         return;
       }
 
-      socket.emit('suggest_song', {
+      socket.emit("suggest_song", {
         sessionId,
         suggestion: {
           id: track.id,
           name: track.name,
           artist: track.artists[0].name,
-          uri: track.uri
-        }
+          uri: track.uri,
+        },
       });
 
       setHasSuggested(true);
     } catch (err) {
-      setError('Failed to suggest song');
+      setError("Failed to suggest song");
     }
   };
 
   const handleVote = (songId) => {
-    if (hasVoted || phase !== 'voting') return;
-    
-    socket.emit('vote', {
+    if (hasVoted || phase !== "voting") return;
+
+    socket.emit("vote", {
       sessionId,
-      songId
+      songId,
     });
-    
+
     setHasVoted(true);
   };
 
   const handleEndSession = () => {
     if (isHost) {
-      socket.emit('end_session', { sessionId });
+      socket.emit("end_session", { sessionId });
     }
+  };
+
+  const handleBackToHome = () => {
+    navigate("/");
   };
 
   const PhaseTimer = () => {
@@ -113,13 +117,13 @@ function Session() {
 
     return (
       <div className="phase-timer">
-        {minutes}:{remainingSeconds.toString().padStart(2, '0')} remaining
+        {minutes}:{remainingSeconds.toString().padStart(2, "0")} remaining
       </div>
     );
   };
 
   useEffect(() => {
-    if (phase === 'suggestion') {
+    if (phase === "suggestion") {
       setHasVoted(false);
     }
   }, [phase]);
@@ -129,33 +133,37 @@ function Session() {
       <header className="session-header">
         <h1>Session: {sessionId}</h1>
         {isHost && (
-          <button 
-            onClick={handleEndSession}
-            className="end-session-btn"
-          >
+          <button onClick={handleEndSession} className="end-session-btn">
             End Session
           </button>
         )}
+        <button onClick={handleBackToHome} className="back-to-home-button">
+          Back to Home
+        </button>
       </header>
 
       {currentSong && (
         <div className="now-playing">
           <h2>Now Playing</h2>
           <div className="song-info">
-            <img 
-              src={currentSong.album.images[0].url} 
+            <img
+              src={currentSong.album.images[0].url}
               alt={currentSong.name}
               className="album-art"
             />
             <div className="song-details">
               <h3>{currentSong.name}</h3>
-              <p>{currentSong.artists.map(a => a.name).join(', ')}</p>
+              <p>{currentSong.artists.map((a) => a.name).join(", ")}</p>
             </div>
           </div>
           <div className="progress-bar">
-            <div 
+            <div
               className="progress"
-              style={{ width: `${(currentSong.progress_ms / currentSong.duration_ms) * 100}%` }}
+              style={{
+                width: `${
+                  (currentSong.progress_ms / currentSong.duration_ms) * 100
+                }%`,
+              }}
             />
           </div>
         </div>
@@ -163,26 +171,23 @@ function Session() {
 
       <div className="phase-indicator">
         <div className="phase-info">
-          {phase === 'suggestion' && 'Suggestion Phase'}
-          {phase === 'voting' && 'Voting Phase'}
-          {phase === 'locked' && 'Voting Locked'}
-          {phase === 'waiting' && 'Waiting for song...'}
+          {phase === "suggestion" && "Suggestion Phase"}
+          {phase === "voting" && "Voting Phase"}
+          {phase === "locked" && "Voting Locked"}
+          {phase === "waiting" && "Waiting for song..."}
         </div>
-        {phase !== 'waiting' && <PhaseTimer />}
-        {winner && phase === 'locked' && (
+        {phase !== "waiting" && <PhaseTimer />}
+        {winner && phase === "locked" && (
           <div className="winner-announcement">
             Next Song: {winner.name} by {winner.artist}
           </div>
         )}
       </div>
 
-      {phase === 'suggestion' && (
+      {phase === "suggestion" && (
         <div className="suggestion-section">
           <h2>Suggest a Song</h2>
-          <SongSearch 
-            onSuggest={handleSuggestSong}
-            disabled={hasSuggested}
-          />
+          <SongSearch onSuggest={handleSuggestSong} disabled={hasSuggested} />
           <div className="suggestions-list">
             <h3>Current Suggestions</h3>
             {suggestions.map((s) => (
@@ -198,24 +203,20 @@ function Session() {
         </div>
       )}
 
-      {phase === 'voting' && (
+      {phase === "voting" && (
         <VotingSection
           suggestions={suggestions}
           votes={votes}
           onVote={handleVote}
           timeRemaining={timeRemaining}
           hasVoted={hasVoted}
-          isLocked={phase === 'locked'}
+          isLocked={phase === "locked"}
         />
       )}
 
-      {error && (
-        <div className="error-message">
-          {error}
-        </div>
-      )}
+      {error && <div className="error-message">{error}</div>}
     </div>
   );
 }
 
-export default Session; 
+export default Session;
