@@ -1,0 +1,130 @@
+.home-container {
+  min-height: 100vh;
+  background: #121212;
+  color: white;
+  padding: 20px;
+}
+
+.home-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.home-content {
+  max-width: 1200px;
+  margin: 40px auto;
+}
+
+.session-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  padding: 20px;
+}
+
+.create-session, .join-session {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 30px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.create-session h2, .join-session h2 {
+  margin-bottom: 15px;
+  color: #1DB954;
+}
+
+.create-session p, .join-session p {
+  margin-bottom: 25px;
+  color: #b3b3b3;
+}
+
+.create-btn {
+  background: #1DB954;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.create-btn:hover {
+  transform: scale(1.05);
+  background: #1ed760;
+}
+
+.join-session form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.join-session input {
+  width: 200px;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 1.2rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+
+.join-session input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.join-session button {
+  background: #1DB954;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.join-session button:hover {
+  transform: scale(1.05);
+  background: #1ed760;
+}
+
+.error-message {
+  color: #ff4444;
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .session-options {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .home-header {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+} 

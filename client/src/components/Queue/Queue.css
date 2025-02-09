@@ -1,0 +1,88 @@
+.queue-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.search-section {
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.search-results {
+  margin-top: 10px;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.search-result-item:hover {
+  background-color: #f5f5f5;
+}
+
+.track-image {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.track-info {
+  flex: 1;
+}
+
+.track-name {
+  font-weight: bold;
+}
+
+.track-artist {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.queue-list {
+  margin-top: 20px;
+}
+
+.queue-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.queue-position {
+  width: 30px;
+  text-align: center;
+  color: #666;
+}
+
+.queue-track-image {
+  width: 50px;
+  height: 50px;
+  margin: 0 10px;
+}
+
+.queue-track-info {
+  flex: 1;
+}
+
+.queue-track-name {
+  font-weight: bold;
+}
+
+.queue-track-artist {
+  font-size: 0.9em;
+  color: #666;
+} 
